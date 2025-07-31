@@ -5,7 +5,7 @@ import { GET_PATIENT } from '@/graphql/mutations/patients/patientQuery';
 import { useGraphqlMutation } from '@/lib/hooks/useGraphqlMutation';
 import { UPDATE_PATIENT } from '@/graphql/mutations/patients/patientMutation';
 import { updatePatient } from '@/store/patient/patientSlice';
-import type { Patient } from '@/store/patient/patientType';
+import type { UpsertPatientInput, Patient } from '@/store/patient/patientType';
 import { useDispatch } from 'react-redux';
 
 export default function PatientEdit() {
@@ -19,12 +19,14 @@ export default function PatientEdit() {
 
   const { execute: update, loading } = useGraphqlMutation({
     mutation: UPDATE_PATIENT,
-    onSuccess: () => navigate('/patients'),
+    onSuccess: (data) => {
+      navigate('/patients');
+      dispatch(updatePatient(data.patient));
+    },
   });
 
-  const handleSubmit = async (formData: Patient) => {
+  const handleSubmit = async (formData: UpsertPatientInput) => {
     await update({ variables: { data: { ...formData, id: Number(id) } } });
-    dispatch(updatePatient(formData));
   };
 
   if (loadingQuery || !data) return <p>Loading patient...</p>;

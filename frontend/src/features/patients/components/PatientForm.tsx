@@ -1,7 +1,25 @@
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/form/Button';
+import { Input } from '@/components/form/Input';
+import { Select } from '@/components/form/Select';
+
+const schema = z.object({
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  email: z.string().email('Invalid email address'),
+  phone: z.string().min(1, 'Phone number is required'),
+  birthDate: z.string().min(1, 'Birth date is required'),
+  gender: z.enum(['Male', 'Female', 'Other'], 'Gender is required'),
+});
+
+type FormValues = z.infer<typeof schema>;
+
 type Props = {
   loading: boolean;
-  onSubmit: (form: any) => void;
-  initialData?: Partial<any>;
+  onSubmit: (form: FormValues) => void;
+  initialData?: Partial<FormValues>;
 };
 
 export default function PatientForm({
@@ -9,113 +27,74 @@ export default function PatientForm({
   onSubmit,
   initialData = {},
 }: Props) {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = {
-      firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      email: form.email.value,
-      phone: form.phone.value,
-      birthDate: form.birthDate.value,
-      gender: form.gender.value,
-    };
-    onSubmit(formData);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: initialData,
+  });
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className="max-w-xl mx-auto p-6 rounded-lg space-y-5"
     >
       <h2 className="text-xl font-semibold text-gray-800">Patient Details</h2>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          First Name
-        </label>
-        <input
-          name="firstName"
-          defaultValue={initialData.firstName}
-          placeholder="Enter first name"
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <Input
+        label="First Name"
+        placeholder="Enter first name"
+        {...register('firstName')}
+        error={errors.firstName}
+      />
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Last Name
-        </label>
-        <input
-          name="lastName"
-          defaultValue={initialData.lastName}
-          placeholder="Enter last name"
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <Input
+        label="Last Name"
+        placeholder="Enter last name"
+        {...register('lastName')}
+        error={errors.lastName}
+      />
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Email
-        </label>
-        <input
-          name="email"
-          defaultValue={initialData.email}
-          type="email"
-          placeholder="Enter email address"
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <Input
+        label="Email"
+        type="email"
+        placeholder="Enter email address"
+        {...register('email')}
+        error={errors.email}
+      />
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Phone
-        </label>
-        <input
-          name="phone"
-          defaultValue={initialData.phone}
-          type="tel"
-          placeholder="Enter phone number"
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <Input
+        label="Phone"
+        type="tel"
+        placeholder="Enter phone number"
+        {...register('phone')}
+        error={errors.phone}
+      />
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Birth Date
-        </label>
-        <input
-          name="birthDate"
-          defaultValue={initialData.birthDate}
-          type="date"
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <Input
+        label="Birth Date"
+        type="date"
+        {...register('birthDate')}
+        error={errors.birthDate}
+      />
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Gender
-        </label>
-        <select
-          name="gender"
-          defaultValue={initialData.gender}
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Select gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
+      <Select
+        label="Gender"
+        {...register('gender')}
+        error={errors.gender}
+        options={[
+          { label: 'Select gender', value: '' },
+          { label: 'Male', value: 'Male' },
+          { label: 'Female', value: 'Female' },
+        ]}
+      />
 
       <div className="pt-4">
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-        >
-          {loading ? "Please wait..." : "Save Patient"}
-        </button>
+        <Button type="submit" loading={loading}>
+          Save Patient
+        </Button>
       </div>
     </form>
   );

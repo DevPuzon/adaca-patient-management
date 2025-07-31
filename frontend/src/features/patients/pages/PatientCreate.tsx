@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import PatientForm from "../components/PatientForm";
-import { useGraphqlMutation } from "@/lib/hooks/useGraphqlMutation";
-import { CREATE_PATIENT } from "@/graphql/mutations/patients/patientMutation";
-import { useDispatch } from "react-redux";
-import { addPatient } from "@/store/patient/patientSlice";
-import type { Patient } from "@/store/patient/patientType";
+import { useNavigate } from 'react-router-dom';
+import PatientForm from '../components/PatientForm';
+import { useGraphqlMutation } from '@/lib/hooks/useGraphqlMutation';
+import { CREATE_PATIENT } from '@/graphql/mutations/patients/patientMutation';
+import { useDispatch } from 'react-redux';
+import { addPatient } from '@/store/patient/patientSlice';
+import type { UpsertPatientInput } from '@/store/patient/patientType';
 
 export default function PatientCreate() {
   const dispatch = useDispatch();
@@ -12,12 +12,14 @@ export default function PatientCreate() {
 
   const { execute, loading } = useGraphqlMutation({
     mutation: CREATE_PATIENT,
-    onSuccess: () => navigate("/patients"),
+    onSuccess: (data) => {
+      navigate('/patients');
+      dispatch(addPatient(data.patient));
+    },
   });
 
-  const handleSubmit = async (formData: Patient) => {
-    await execute({ variables: { data: formData } });
-    dispatch(addPatient(formData));
+  const handleSubmit = async (formData: UpsertPatientInput) => {
+    execute({ variables: { data: formData } });
   };
 
   return (

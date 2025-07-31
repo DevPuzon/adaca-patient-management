@@ -1,25 +1,27 @@
-import Spinner from "@/components/ui/Spinner";
-import { DELETE_PATIENT } from "@/graphql/mutations/patients/patientMutation";
-import { GET_PATIENTS } from "@/graphql/mutations/patients/patientQuery";
-import { useGraphqlMutation } from "@/lib/hooks/useGraphqlMutation";
-import { useGraphqlQuery } from "@/lib/hooks/useGraphqlQuery";
-import type { RootState } from "@/store";
+import Spinner from '@/components/ui/Spinner';
+import { DELETE_PATIENT } from '@/graphql/mutations/patients/patientMutation';
+import { GET_PATIENTS } from '@/graphql/mutations/patients/patientQuery';
+import { useGraphqlMutation } from '@/lib/hooks/useGraphqlMutation';
+import { useGraphqlQuery } from '@/lib/hooks/useGraphqlQuery';
+import type { RootState } from '@/store';
 import {
   clearShouldRefetch,
   deletePatient,
-} from "@/store/patient/patientSlice";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import moment from "moment-timezone";
+} from '@/store/patient/patientSlice';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
+import { Input } from '@/components/form/Input';
+import { Select } from '@/components/form/Select';
 
 export default function PatientList() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGender, setSelectedGender] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedGender, setSelectedGender] = useState('');
   const shouldRefetch = useSelector(
-    (state: RootState) => state.patient.shouldRefetchPatients
+    (state: RootState) => state.patient.shouldRefetchPatients,
   );
 
   const limit = 10;
@@ -45,7 +47,7 @@ export default function PatientList() {
   const totalPages = Math.ceil(total / limit);
 
   const handleDelete = async (id: number) => {
-    if (confirm("Are you sure you want to delete this patient?")) {
+    if (confirm('Are you sure you want to delete this patient?')) {
       await executeDelete({ variables: { id } });
       dispatch(deletePatient(id));
       refetch();
@@ -71,7 +73,7 @@ export default function PatientList() {
         </Link>
       </div>
       <div className="flex flex-wrap items-center gap-4 mt-4">
-        <input
+        <Input
           type="text"
           placeholder="Search by name or email..."
           value={searchTerm}
@@ -79,20 +81,14 @@ export default function PatientList() {
             setSearchTerm(e.target.value);
             setPage(1);
           }}
-          className="px-3 py-2 border rounded-md text-sm w-64"
         />
-        <select
-          value={selectedGender}
-          onChange={(e) => {
-            setSelectedGender(e.target.value);
-            setPage(1);
-          }}
-          className="px-3 py-2 border rounded-md text-sm"
-        >
-          <option value="">All Genders</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
+        <Select
+          options={[
+            { label: 'All Genders', value: '' },
+            { label: 'Male', value: 'male' },
+            { label: 'Female', value: 'female' },
+          ]}
+        />
       </div>
 
       {loading ? (
@@ -121,18 +117,18 @@ export default function PatientList() {
                   <td className="px-4 py-2 font-medium text-gray-900">
                     {patient.firstName} {patient.lastName}
                   </td>
-                  <td className="px-4 py-2">{patient.email || "—"}</td>
-                  <td className="px-4 py-2">{patient.phone || "—"}</td>
+                  <td className="px-4 py-2">{patient.email || '—'}</td>
+                  <td className="px-4 py-2">{patient.phone || '—'}</td>
                   <td className="px-4 py-2 capitalize">
-                    {patient.gender || "—"}
+                    {patient.gender || '—'}
                   </td>
                   <td className="px-4 py-2">
                     {patient.birthDate
-                      ? moment(patient.birthDate).format("MMM DD, YYYY")
-                      : "—"}
+                      ? moment(patient.birthDate).format('MMM DD, YYYY')
+                      : '—'}
                   </td>
                   <td className="px-4 py-2 text-gray-500">
-                    {moment(patient.createdAt).format("MMM DD, YYYY")}
+                    {moment(patient.createdAt).format('MMM DD, YYYY')}
                   </td>
                   <td className="px-4 py-2">
                     <div className="flex gap-3">

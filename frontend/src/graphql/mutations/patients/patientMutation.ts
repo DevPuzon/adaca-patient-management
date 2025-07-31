@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const CREATE_PATIENT = gql`
   mutation CreatePatient($data: CreatePatientDto!) {
@@ -6,6 +6,14 @@ export const CREATE_PATIENT = gql`
       message
       patient {
         id
+        firstName
+        lastName
+        email
+        phone
+        birthDate
+        gender
+        createdAt
+        updatedAt
       }
     }
   }
@@ -17,6 +25,14 @@ export const UPDATE_PATIENT = gql`
       message
       patient {
         id
+        firstName
+        lastName
+        email
+        phone
+        birthDate
+        gender
+        createdAt
+        updatedAt
       }
     }
   }

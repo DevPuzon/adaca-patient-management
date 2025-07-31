@@ -7,3 +7,8 @@ export interface Patient {
   birthDate: string;
   gender: string;
 }
+
+export type UpsertPatientInput = Omit<
+  Patient,
+  'id' | 'createdAt' | 'updatedAt'
+>;
