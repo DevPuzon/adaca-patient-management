@@ -1,0 +1,93 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthPayload {
+  message: String!
+  token: String!
+  user: User!
+}
+
+type CommonResponsePayload {
+  message: String!
+}
+
+input CreatePatientDto {
+  birthDate: DateTime!
+  email: String!
+  firstName: String!
+  gender: String!
+  lastName: String!
+  phone: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createPatient(data: CreatePatientDto!): PatientResponse!
+  deletePatient(id: Int!): CommonResponsePayload!
+  login(input: LoginInput!): AuthPayload!
+  register(input: RegisterInput!): CommonResponsePayload!
+  updatePatient(data: UpdatePatientDto!): PatientResponse!
+}
+
+type Patient {
+  birthDate: DateTime!
+  createdAt: DateTime!
+  email: String!
+  firstName: String!
+  gender: String!
+  id: Int!
+  lastName: String!
+  phone: String!
+  updatedAt: DateTime!
+}
+
+type PatientPaginated {
+  items: [Patient!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+}
+
+type PatientResponse {
+  message: String!
+  patient: Patient!
+}
+
+type Query {
+  findAllPatients: [Patient!]!
+  findOnePatient(id: Int!): Patient!
+  getPatients(gender: String, limit: Int!, page: Int!, search: String): PatientPaginated!
+  home: String!
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+input UpdatePatientDto {
+  birthDate: DateTime
+  email: String
+  firstName: String
+  gender: String
+  id: Float!
+  lastName: String
+  phone: String
+}
+
+type User {
+  email: String!
+  id: Int!
+  name: String!
+}
