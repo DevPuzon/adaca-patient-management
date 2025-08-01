@@ -72,7 +72,6 @@ type Query {
 
 input RegisterInput {
   email: String!
-  name: String!
   password: String!
 }
 
@@ -89,5 +88,4 @@ input UpdatePatientDto {
 type User {
   email: String!
   id: Int!
-  name: String!
 }

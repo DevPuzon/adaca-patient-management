@@ -1,7 +1,7 @@
-import { Outlet } from "react-router-dom";
-import Header from "@/components/ui/Header";
-import Sidebar from "@/components/ui/SideBar";
-import Footer from "@/components/ui/Footer";
+import { Outlet } from 'react-router-dom';
+import Header from '@/components/ui/Header';
+import Sidebar from '@/components/ui/SideBar';
+import Footer from '@/components/ui/Footer';
 
 export default function AuthenticatedLayout() {
   return (

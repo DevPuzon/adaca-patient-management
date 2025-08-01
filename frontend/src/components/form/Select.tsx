@@ -13,7 +13,7 @@ type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   error?: FieldError | string;
 };
 
-export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
+const SelectComponent = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, options, error, className = '', ...props }, ref) => {
     return (
       <div className="space-y-1">
@@ -56,4 +56,6 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   },
 );
 
+const Select = React.memo(SelectComponent);
 Select.displayName = 'Select';
+export default Select;

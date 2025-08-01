@@ -12,8 +12,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
-import { Input } from '@/components/form/Input';
-import { Select } from '@/components/form/Select';
+import Input from '@/components/form/Input';
+import Select from '@/components/form/Select';
 
 export default function PatientList() {
   const dispatch = useDispatch();

@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import { encrypt } from '../src/common/utils/encryption.util';
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 Seeding 200 patients...');
-
   const patients = Array.from({ length: 200 }).map(() => ({
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
@@ -16,8 +16,17 @@ async function main() {
   }));
 
   await prisma.patient.createMany({ data: patients });
+  console.log('✅ Patients seeded!');
 
-  console.log('✅ Seeding complete!');
+  console.log('🌱 Seeding 20 users...');
+  const placeholderPassword = '123456';
+  const users = Array.from({ length: 20 }).map(() => ({
+    email: faker.internet.email().toLowerCase(),
+    password: encrypt(placeholderPassword),
+  }));
+
+  await prisma.user.createMany({ data: users });
+  console.log('✅ Users seeded!');
 }
 
 main()

@@ -1,8 +1,10 @@
-export default function ComingSoon({
-  feature = "This page",
+import React from 'react';
+
+const ComingSoonComponent = ({
+  feature = 'This page',
 }: {
   feature?: string;
-}) {
+}) => {
   return (
     <div className="text-center mt-20 text-gray-600">
       <h1 className="text-3xl font-bold mb-4">{feature} is coming soon!</h1>
@@ -11,4 +13,9 @@ export default function ComingSoon({
       </p>
     </div>
   );
-}
+};
+
+const ComingSoon = React.memo(ComingSoonComponent);
+ComingSoon.displayName = 'ComingSoon';
+
+export default ComingSoon;

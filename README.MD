@@ -47,6 +47,7 @@ npm install
 # For backend
 cd ../backend
 npm install
+npm run seed
 ```
 
 ### 3. Set up your `.env` files

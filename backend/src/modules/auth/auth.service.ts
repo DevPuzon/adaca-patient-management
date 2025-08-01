@@ -19,6 +19,7 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<{ token: string; user: User }> {
+    email = email.toLowerCase();
     const user = await this.prisma.user.findUnique({ where: { email } });
     this.logger.debug('User', user, decrypt(user.password));
     if (!user || password !== decrypt(user.password)) {
@@ -36,19 +37,16 @@ export class AuthService {
     };
   }
 
-  async registerUser(
-    name: string,
-    email: string,
-    password: string,
-  ): Promise<string> {
+  async registerUser(email: string, password: string): Promise<string> {
     const existing = await this.prisma.user.findUnique({ where: { email } });
     if (existing) {
       throw new BadRequestException('Email already in use');
     }
 
+    email = email.toLowerCase();
     const hashedPassword = encrypt(password);
     const user = await this.prisma.user.create({
-      data: { name, email, password: hashedPassword },
+      data: { email, password: hashedPassword },
     });
 
     const token = jwt.sign(

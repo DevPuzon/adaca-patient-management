@@ -6,7 +6,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   error?: FieldError | string;
 };
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const InputComponent = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, className = '', ...props }, ref) => {
     return (
       <div className="space-y-1">
@@ -37,4 +37,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
+const Input = React.memo(InputComponent);
 Input.displayName = 'Input';
+export default Input;

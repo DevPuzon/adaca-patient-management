@@ -22,11 +22,7 @@ export class AuthResolver {
   async register(
     @Args('input') input: RegisterInput,
   ): Promise<CommonResponsePayload> {
-    const token = await this.authService.registerUser(
-      input.name,
-      input.email,
-      input.password,
-    );
+    await this.authService.registerUser(input.email, input.password);
     return { message: 'Successfully Created' };
   }
 }

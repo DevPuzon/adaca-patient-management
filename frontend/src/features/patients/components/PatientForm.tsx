@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/form/Button';
-import { Input } from '@/components/form/Input';
-import { Select } from '@/components/form/Select';
+import Button from '@/components/form/Button';
+import Input from '@/components/form/Input';
+import Select from '@/components/form/Select';
 
 const schema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -11,7 +11,7 @@ const schema = z.object({
   email: z.string().email('Invalid email address'),
   phone: z.string().min(1, 'Phone number is required'),
   birthDate: z.string().min(1, 'Birth date is required'),
-  gender: z.enum(['Male', 'Female', 'Other'], 'Gender is required'),
+  gender: z.enum(['male', 'female', ''], 'Gender is required'),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -86,8 +86,8 @@ export default function PatientForm({
         error={errors.gender}
         options={[
           { label: 'Select gender', value: '' },
-          { label: 'Male', value: 'Male' },
-          { label: 'Female', value: 'Female' },
+          { label: 'Male', value: 'male' },
+          { label: 'Female', value: 'female' },
         ]}
       />
 

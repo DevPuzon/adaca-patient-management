@@ -1,6 +1,7 @@
-import { FaBell } from "react-icons/fa";
+import { FaBell } from 'react-icons/fa';
+import React from 'react';
 
-export default function Header() {
+const HeaderComponent = () => {
   return (
     <header className="h-16 px-6 flex items-center justify-between bg-blue-600 text-white shadow-sm">
       <div className="text-lg font-medium">Welcome, Provider</div>
@@ -20,4 +21,9 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};
+
+const Header = React.memo(HeaderComponent);
+Header.displayName = 'Header';
+
+export default Header;

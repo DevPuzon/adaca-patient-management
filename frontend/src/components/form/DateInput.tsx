@@ -6,7 +6,7 @@ type DateInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   error?: FieldError | string;
 };
 
-export const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
+const DateInputComponent = React.forwardRef<HTMLInputElement, DateInputProps>(
   ({ label, error, className = '', ...props }, ref) => {
     return (
       <div className="space-y-1">
@@ -38,4 +38,6 @@ export const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
   },
 );
 
+const DateInput = React.memo(DateInputComponent);
 DateInput.displayName = 'DateInput';
+export default DateInput;

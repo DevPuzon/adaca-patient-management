@@ -8,8 +8,8 @@ import { LOGIN_MUTATION } from '@/graphql/mutations/auth/loginMutation';
 import { useGraphqlMutation } from '@/lib/hooks/useGraphqlMutation';
 import { cookie } from '@/lib/utils/cookie';
 import { setUser } from '@/store/auth/authSlice';
-import { Button } from '@/components/form/Button';
-import { Input } from '@/components/form/Input';
+import Button from '@/components/form/Button';
+import Input from '@/components/form/Input';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
